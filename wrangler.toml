@@ -5,5 +5,5 @@ pages_build_output_dir = "./dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "music-db"
-database_id = "replace-with-your-d1-database-id"
+database_id = "f7afc20a-77ef-4e03-9625-a2d7ab5dee3d"
 migrations_dir = "migrations"
