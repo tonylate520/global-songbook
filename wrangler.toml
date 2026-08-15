@@ -1,0 +1,9 @@
+name = "global-songbook"
+compatibility_date = "2025-08-15"
+pages_build_output_dir = "./dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "music-db"
+database_id = "replace-with-your-d1-database-id"
+migrations_dir = "migrations"

@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="About - Global Song Index">
+  <div class="page-shell narrow-page">
+    <header class="page-header"><p class="eyebrow">Catalogue / About</p><h1>About Global Song Index</h1></header>
+    <section class="prose">
+      <h2>Catalogue scope</h2>
+      <p>Songs are organised by the artist's country and labelled as original recordings, cover versions, or unconfirmed credits.</p>
+      <h2>Country classification</h2>
+      <p>A song appears under the country of each performing artist. Versions by artists from different countries may therefore appear in several country catalogues.</p>
+      <h2>Corrections</h2>
+      <p>Song versions and artist classifications are reviewed and updated as the catalogue grows.</p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .narrow-page { max-width: 780px; }
+  .prose { padding: 36px 0 70px; }
+  .prose h2 { margin-top: 32px; }
+  .prose p { color: var(--muted); line-height: 1.8; }
+</style>

@@ -1,0 +1,44 @@
+{
+  "name": "global-songbook",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "pages:dev": "wrangler pages dev dist",
+    "db:migrate:local": "wrangler d1 migrations apply music-db --local",
+    "data:build:countries": "node scripts/build-country-sql.mjs",
+    "data:merge": "node scripts/merge-catalogs.mjs",
+    "data:validate": "node scripts/validate-catalog.mjs",
+    "data:build:catalog": "node scripts/build-catalog-sql.mjs --input data/generated/catalog.ndjson",
+    "data:build": "pnpm run data:build:countries && pnpm run data:merge && pnpm run data:validate && pnpm run data:build:catalog",
+    "data:fetch:musicbrainz": "node scripts/fetch-musicbrainz-catalog.mjs",
+    "data:fetch:international": "node scripts/fetch-musicbrainz-catalog.mjs --seeds data/musicbrainz-seeds-international.txt --seed-limit 78 --works-per-seed 10 --max-recordings 250 --output data/musicbrainz-catalog-international-0.ndjson",
+    "data:import:local": "node scripts/apply-generated-sql.mjs",
+    "data:import:remote": "node scripts/apply-generated-sql.mjs --remote",
+    "data:verify:local": "node scripts/apply-generated-sql.mjs --verify-only",
+    "data:verify:remote": "node scripts/apply-generated-sql.mjs --remote --verify-only",
+    "release:check": "node scripts/launch-check.mjs",
+    "provision:production": "node scripts/provision-production.mjs",
+    "deploy:production": "node scripts/deploy-production.mjs",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "astro": "^7.2.2",
+    "i18n-iso-countries": "^7.14.0",
+    "lucide": "^0.468.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@cloudflare/workers-types": "^5.20260811.1",
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0",
+    "wrangler": "^4.30.0"
+  }
+}

@@ -1,0 +1,31 @@
+# Songwriters used to bootstrap a broad, cover-aware catalogue.
+John Lennon
+Paul McCartney
+Bob Dylan
+Dolly Parton
+Leonard Cohen
+Elton John
+Bernie Taupin
+Stevie Wonder
+Carole King
+David Bowie
+Michael Jackson
+Prince
+Madonna
+Marvin Gaye
+Neil Diamond
+Paul Simon
+Benny Andersson
+Bjorn Ulvaeus
+Barry Gibb
+Mick Jagger
+Keith Richards
+Burt Bacharach
+Hal David
+Joni Mitchell
+Bruce Springsteen
+Neil Young
+Chuck Berry
+Willie Nelson
+Kris Kristofferson
+Paul Anka

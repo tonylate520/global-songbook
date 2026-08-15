@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Song details - Global Song Index" noindex>
+  <div class="page-shell" id="song-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a><i data-lucide="chevron-right"></i><span>Song details</span>
+    </nav>
+    <div id="song-loading" class="loading-state song-loading"><div><i data-lucide="music-2"></i><p>Loading song</p></div></div>
+    <div id="song-error" class="empty-state song-loading hidden"><div><i data-lucide="music-2"></i><p>Song not found</p><a class="button" href="/search/">Back to search</a></div></div>
+    <article id="song-content" class="hidden">
+      <header class="song-hero">
+        <p class="eyebrow">Song entry</p>
+        <h1 id="song-title"></h1>
+        <div class="meta-line" id="song-meta"></div>
+      </header>
+      <section class="section">
+        <div class="section-heading"><h2>Performers</h2><span id="performer-count" class="result-count"></span></div>
+        <div id="performer-list" class="performer-list"></div>
+      </section>
+    </article>
+  </div>
+  <script>import "../../scripts/song-page";</script>
+</BaseLayout>
+
+<style>.song-loading { margin: 44px 0 80px; }</style>

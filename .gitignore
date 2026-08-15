@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+.env
+.DS_Store
+data/generated/
+data/cache/
+data/*.log
+data/*.err.log
+data/audit.json

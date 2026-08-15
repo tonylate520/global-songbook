@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { countryList, type Country } from "../../data/countries";
+
+export function getStaticPaths() {
+  return countryList.map((country) => ({ params: { code: country.code }, props: { country } }));
+}
+
+interface Props { country: Country }
+const { country } = Astro.props;
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "";
+const countryUrl = `${siteUrl}/country/${country.code}/`;
+---
+
+<BaseLayout
+  title={`${country.nameEn} songs and artists - Global Song Index`}
+  description={`Browse original recordings and cover versions performed by artists from ${country.nameEn}.`}
+  schema={[
+    { "@type": "CollectionPage", name: `${country.nameEn} songs and artists`, url: countryUrl },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Countries", item: `${siteUrl}/countries/` },
+        { "@type": "ListItem", position: 2, name: country.nameEn, item: countryUrl }
+      ]
+    }
+  ]}
+>
+  <div class="page-shell" id="country-page" data-country-code={country.code}>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/countries/">Countries</a>
+      <i data-lucide="chevron-right"></i>
+      <span>{country.nameEn}</span>
+    </nav>
+    <header class="page-header">
+      <div class="country-title">
+        <span class="country-code country-code-large" aria-hidden="true">{country.code.toUpperCase()}</span>
+        <div>
+          <p class="eyebrow">Country catalogue / {country.code.toUpperCase()}</p>
+          <h1>{country.nameEn} Songs & Artists</h1>
+        </div>
+      </div>
+      <div class="meta-line">
+        <span class="meta-item"><i data-lucide="map-pin"></i>{country.code.toUpperCase()}</span>
+        <span class="meta-item"><i data-lucide="list-music"></i><span id="song-count">Counting entries</span></span>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="section-heading">
+        <h2>Song catalogue</h2>
+        <span class="result-count">50 per page</span>
+      </div>
+      <div id="country-loading" class="loading-state"><div><i data-lucide="music-2"></i><p>Loading songs</p></div></div>
+      <div id="country-error" class="empty-state hidden"><div><i data-lucide="music-2"></i><p>Songs are temporarily unavailable</p><button id="retry-button" class="button">Try again</button></div></div>
+      <div id="country-empty" class="empty-state hidden"><div><i data-lucide="list-music"></i><p>No songs have been added for this country</p></div></div>
+      <div id="song-table" class="data-table hidden">
+        <div class="table-head"><span>Song</span><span>Artist</span><span>Credit</span><span></span></div>
+        <div id="song-rows"></div>
+      </div>
+      <div id="pagination" class="pagination hidden">
+        <button id="previous-page" class="button" disabled><i data-lucide="arrow-left"></i>Previous</button>
+        <button id="next-page" class="button">Next<i data-lucide="arrow-right"></i></button>
+      </div>
+    </section>
+  </div>
+  <script>import "../../scripts/country-page";</script>
+</BaseLayout>

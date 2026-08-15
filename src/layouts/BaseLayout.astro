@@ -1,0 +1,97 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = "Browse songs, original performers, and cover artists by country.",
+  noindex = false,
+  schema = []
+} = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
+const canonicalHref = canonical?.toString();
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "";
+const robots = noindex ? "noindex,follow" : "index,follow,max-image-preview:large";
+const extraSchemas = Array.isArray(schema) ? schema : [schema];
+const structuredData = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Global Song Index",
+    url: Astro.site?.toString(),
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${siteUrl}/search/?q={search_term_string}`,
+      "query-input": "required name=search_term_string"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description,
+    url: canonicalHref
+  },
+  ...extraSchemas
+].filter(Boolean)).replace(/</g, "\\u003c");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <meta name="googlebot" content={robots} />
+    <meta name="theme-color" content="#f4f2ed" />
+    <meta name="author" content="Global Song Index" />
+    <meta property="og:site_name" content="Global Song Index" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonicalHref && <meta property="og:url" content={canonicalHref} />}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {canonicalHref && <link rel="canonical" href={canonicalHref} />}
+    {canonicalHref && <link rel="alternate" hreflang="en" href={canonicalHref} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <script id="page-schema" is:inline type="application/ld+json" set:html={structuredData}></script>
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Global Song Index home">
+        <span class="brand-mark"><i data-lucide="audio-lines"></i></span>
+        <span class="brand-name">Global Song Index</span>
+        <span class="brand-edition">CATALOGUE</span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/countries/">Countries</a>
+        <a href="/search/">Search</a>
+      </nav>
+      <a class="header-search" href="/search/" title="Search songs or artists" aria-label="Search songs or artists">
+        <i data-lucide="search"></i>
+      </a>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <span>GLOBAL SONG INDEX</span>
+      <a href="/about/">About</a>
+    </footer>
+    <script>
+      import { createIcons, ArrowLeft, ArrowRight, AudioLines, ChevronRight, Globe2, ListMusic, MapPin, Music2, Search, UserRound, X } from "lucide";
+      createIcons({ icons: { ArrowLeft, ArrowRight, AudioLines, ChevronRight, Globe2, ListMusic, MapPin, Music2, Search, UserRound, X } });
+    </script>
+  </body>
+</html>

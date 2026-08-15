@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { countryList } from "../../data/countries";
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "";
+const countryItems = countryList.map((country, index) => ({
+  "@type": "ListItem",
+  position: index + 1,
+  name: country.nameEn,
+  url: `${siteUrl}/country/${country.code}/`
+}));
+---
+
+<BaseLayout
+  title="Countries and regions - Global Song Index"
+  description="Browse songs, original performers, and cover artists by country and region."
+  schema={{ "@type": "ItemList", name: "Countries and regions", itemListElement: countryItems }}
+>
+  <div class="page-shell">
+    <header class="page-header">
+      <p class="eyebrow">Catalogue / Countries</p>
+      <h1>Countries & Regions</h1>
+      <p class="lead">Choose a country to browse songs performed by its artists.</p>
+    </header>
+    <div class="toolbar">
+      <input id="country-filter" class="filter-input" type="search" placeholder="Filter countries and regions" aria-label="Filter countries and regions" />
+      <span class="result-count"><strong id="country-count">{countryList.length}</strong> countries and regions</span>
+    </div>
+    <div id="country-grid" class="country-grid" data-total={countryList.length}>
+      {countryList.map((country) => (
+        <a class="country-link" href={`/country/${country.code}/`} data-search={`${country.nameEn} ${country.code}`}>
+          <span class="country-code" aria-hidden="true">{country.code.toUpperCase()}</span>
+          <span class="country-name">
+            <strong>{country.nameEn}</strong>
+            <small>{country.code.toUpperCase()}</small>
+          </span>
+          <i data-lucide="chevron-right"></i>
+        </a>
+      ))}
+    </div>
+    <div id="country-empty" class="empty-state hidden">
+      <div><i data-lucide="globe-2"></i><p>No matching countries or regions</p></div>
+    </div>
+  </div>
+  <script>
+    const input = document.querySelector<HTMLInputElement>("#country-filter");
+    const links = [...document.querySelectorAll<HTMLElement>("#country-grid .country-link")];
+    const count = document.querySelector<HTMLElement>("#country-count");
+    const empty = document.querySelector<HTMLElement>("#country-empty");
+    const grid = document.querySelector<HTMLElement>("#country-grid");
+    input?.addEventListener("input", () => {
+      const query = input.value.trim().toLocaleLowerCase();
+      let visible = 0;
+      links.forEach((link) => {
+        const matches = !query || link.dataset.search?.toLocaleLowerCase().includes(query);
+        link.classList.toggle("hidden", !matches);
+        if (matches) visible += 1;
+      });
+      if (count) count.textContent = String(visible);
+      empty?.classList.toggle("hidden", visible !== 0);
+      grid?.classList.toggle("hidden", visible === 0);
+    });
+  </script>
+</BaseLayout>
