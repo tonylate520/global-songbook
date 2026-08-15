@@ -2,6 +2,9 @@ name = "global-songbook"
 compatibility_date = "2025-08-15"
 pages_build_output_dir = "./dist"
 
+[vars]
+PUBLIC_SITE_URL = "https://kugou9.com"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "music-db"
