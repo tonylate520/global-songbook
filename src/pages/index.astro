@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { countryList } from "../data/countries";
+import manifest from "../../data/generated/catalog/manifest.json";
 
 const featuredCodes = ["cn", "us", "gb", "jp", "kr", "fr", "de", "br"];
 const featuredCountries = featuredCodes
@@ -24,6 +25,20 @@ const featuredCountries = featuredCodes
     </div>
   </section>
 
+  <section class="page-shell home-overview" aria-labelledby="overview-title">
+    <div class="overview-copy">
+      <p class="eyebrow">The catalogue at a glance</p>
+      <h2 id="overview-title">One song can travel through many voices.</h2>
+      <p>Follow original recordings and cover versions across borders, then open a country catalogue to see who performed each song.</p>
+    </div>
+    <div class="stat-grid" aria-label="Catalogue statistics">
+      <div class="stat-card"><strong>{manifest.songs.toLocaleString("en-US")}</strong><span>Songs</span></div>
+      <div class="stat-card"><strong>{manifest.artists.toLocaleString("en-US")}</strong><span>Artists</span></div>
+      <div class="stat-card"><strong>{manifest.records.toLocaleString("en-US")}</strong><span>Song connections</span></div>
+      <div class="stat-card"><strong>{countryList.length}</strong><span>Countries & regions</span></div>
+    </div>
+  </section>
+
   <section class="page-shell section">
     <div class="section-heading">
       <h2>Country index</h2>
@@ -42,6 +57,24 @@ const featuredCountries = featuredCodes
       ))}
     </div>
   </section>
+
+  <section class="page-shell home-actions" aria-label="Explore the catalogue">
+    <a class="action-panel action-panel-primary" href="/countries/">
+      <span class="action-icon"><i data-lucide="globe-2"></i></span>
+      <span><strong>Browse countries</strong><small>Start with a national catalogue</small></span>
+      <i data-lucide="arrow-up-right"></i>
+    </a>
+    <a class="action-panel" href="/search/">
+      <span class="action-icon"><i data-lucide="search"></i></span>
+      <span><strong>Find a song or artist</strong><small>Search the full index</small></span>
+      <i data-lucide="arrow-up-right"></i>
+    </a>
+    <a class="action-panel" href="/about/">
+      <span class="action-icon"><i data-lucide="info"></i></span>
+      <span><strong>About the index</strong><small>How songs and performers are grouped</small></span>
+      <i data-lucide="arrow-up-right"></i>
+    </a>
+  </section>
 </BaseLayout>
 
 <style>
@@ -49,12 +82,35 @@ const featuredCountries = featuredCodes
   .home-grid { min-height: 286px; display: grid; grid-template-columns: minmax(260px, .75fr) minmax(420px, 1.25fr); gap: 88px; align-items: end; padding-bottom: 48px; }
   .home-grid h1 { max-width: 620px; font-size: 38px; margin-bottom: 9px; }
   .catalog-number { display: block; margin-bottom: 24px; color: var(--muted); font: 700 11px/1 ui-monospace, monospace; }
+  .home-overview { display: grid; grid-template-columns: minmax(260px, .85fr) minmax(480px, 1.15fr); gap: 70px; align-items: center; padding: 42px 0; border-bottom: 1px solid var(--line); }
+  .overview-copy h2 { max-width: 460px; margin-bottom: 12px; font-size: 28px; line-height: 1.15; }
+  .overview-copy > p:last-child { max-width: 500px; margin-bottom: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .stat-card { min-height: 104px; padding: 17px 14px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); box-shadow: 0 4px 12px rgba(16, 42, 43, .04); }
+  .stat-card strong { font-family: Georgia, "Times New Roman", serif; font-size: 25px; line-height: 1; }
+  .stat-card span { color: var(--muted); font-size: 11px; line-height: 1.3; }
+  .home-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 0 0 70px; }
+  .action-panel { min-height: 92px; padding: 14px; display: grid; grid-template-columns: 34px 1fr 17px; align-items: center; gap: 12px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+  .action-panel:hover { transform: translateY(-3px); border-color: var(--coral); box-shadow: var(--shadow); }
+  .action-panel-primary { background: var(--ink); color: white; border-color: var(--ink); }
+  .action-panel-primary:hover { border-color: var(--green); }
+  .action-icon { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 6px; color: var(--ink); background: var(--green); }
+  .action-panel > span:nth-child(2) strong, .action-panel > span:nth-child(2) small { display: block; }
+  .action-panel > span:nth-child(2) strong { font-size: 13px; }
+  .action-panel > span:nth-child(2) small { margin-top: 5px; color: var(--muted); font-size: 11px; line-height: 1.35; }
+  .action-panel-primary > span:nth-child(2) small { color: #d9e5e2; }
+  .action-panel > svg { color: var(--coral); }
+  .action-panel-primary > svg { color: var(--green); }
   @media (max-width: 820px) {
     .home-grid { min-height: 330px; grid-template-columns: 1fr; gap: 28px; align-content: end; }
     .home-grid h1 { font-size: 34px; }
+    .home-overview { grid-template-columns: 1fr; gap: 28px; }
+    .home-actions { grid-template-columns: 1fr; }
   }
   @media (max-width: 560px) {
     .home-grid { min-height: 340px; padding-bottom: 34px; }
     .home-grid h1 { font-size: 30px; }
+    .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .overview-copy h2 { font-size: 25px; }
   }
 </style>
