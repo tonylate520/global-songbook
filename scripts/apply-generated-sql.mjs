@@ -17,6 +17,7 @@ const databaseId = wranglerConfig.match(/database_id\s*=\s*"([^"]+)"/)?.[1] || "
 const targetId = createHash("sha256").update(`${targetName}:${databaseId}`).digest("hex").slice(0, 16);
 const statePath = resolve(`data/generated/import-state-${targetName}.json`);
 const stateTempPath = `${statePath}.tmp`;
+const remoteImportPath = resolve("data/generated/.remote-import.sql");
 const catalogFiles = (await readdir(catalogDir))
   .filter((filename) => filename.endsWith(".sql"))
   .sort()
@@ -79,11 +80,22 @@ for (let index = startIndex; index < files.length; index += 1) {
   const file = files[index];
   console.log(`[${index + 1}/${files.length}] Importing ${basename(file)}`);
   try {
-    runWrangler(["d1", "execute", "music-db", locationFlag, "--yes", `--file=${file}`]);
+    let importFile = file;
+    if (remote) {
+      const sql = await readFile(file, "utf8");
+      const remoteSql = sql
+        .replace(/^BEGIN TRANSACTION;\r?\n/gm, "")
+        .replace(/^COMMIT;\r?\n?/gm, "");
+      await writeFile(remoteImportPath, remoteSql, "utf8");
+      importFile = remoteImportPath;
+    }
+    runWrangler(["d1", "execute", "music-db", locationFlag, "--yes", `--file=${importFile}`]);
   } catch (error) {
     console.error(`Import stopped at ${basename(file)}. Re-run the same command to resume.`);
     console.error(error.message);
     process.exit(1);
+  } finally {
+    if (remote) await rm(remoteImportPath, { force: true });
   }
   await saveState(basename(file));
 }
