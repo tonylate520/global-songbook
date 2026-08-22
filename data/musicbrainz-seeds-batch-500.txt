@@ -1,0 +1,91 @@
+# International songwriters for the 500-song catalogue expansion.
+Astor Piazzolla
+Joao Gilberto
+Vinicius de Moraes
+Tom Ze
+Marisa Monte
+Jorge Aragao
+Ruben Blades
+Silvio Rodriguez
+Pablo Milanes
+Joan Manuel Serrat
+Joaquin Sabina
+Alejandro Sanz
+Natalia Lafourcade
+Cafe Tacvba
+Andres Calamaro
+Mercedes Sosa
+Facundo Cabral
+Lila Downs
+Ali Farka Toure
+Hugh Masekela
+Manu Dibango
+Thomas Mapfumo
+King Sunny Ade
+Hugh Tracey
+Franco Luambo
+Tiken Jah Fakoly
+Cheikh Lo
+Baaba Maal
+Rokia Traore
+Oumou Sangare
+Femi Kuti
+Tony Allen
+Koji Kondo
+Joe Hisaishi
+Yasutaka Nakata
+Gen Hoshino
+Kenshi Yonezu
+Sheena Ringo
+Yumi Matsutoya
+Tsunku
+Cho Yong-pil
+Seo Taiji
+IU
+G-Dragon
+Lee Juck
+Yoon Jong-shin
+Li Zongsheng
+Teresa Teng
+Faye Wong
+Wang Leehom
+Lin Xi
+Eason Chan
+Gulzar
+Javed Akhtar
+R. D. Burman
+Shankar Mahadevan
+Vishal Dadlani
+Anu Malik
+M. M. Keeravani
+Yuvan Shankar Raja
+Salim Merchant
+Amr Diab
+Fairuz
+Ziad Rahbani
+Kadim Al Sahir
+Mohamed Mounir
+Umm Kulthum
+Marcel Khalife
+Sting
+Peter Gabriel
+Kate Bush
+George Michael
+Annie Lennox
+Mark Knopfler
+Robert Smith
+Morrissey
+Noel Gallagher
+Thom Yorke
+Damon Albarn
+PJ Harvey
+Tori Amos
+Tracy Chapman
+Lucinda Williams
+Sheryl Crow
+Ani DiFranco
+Nick Cave
+Neil Finn
+Sia
+Lorde
+Gotye
