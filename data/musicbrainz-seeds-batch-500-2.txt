@@ -1,0 +1,104 @@
+# International songwriters for the second 500-song catalogue expansion.
+Ennio Morricone
+Nino Rota
+Giorgio Moroder
+Adriano Celentano
+Gianna Nannini
+Laura Pausini
+Eros Ramazzotti
+Zucchero
+Andrea Bocelli
+Franco Battiato
+Fabrizio De Andre
+Vasco Rossi
+Renaud
+Michel Berger
+Veronique Sanson
+Alain Souchon
+Laurent Voulzy
+Mylene Farmer
+Etienne Daho
+Manu Chao
+Manuel Alejandro
+Jose Luis Perales
+Paco de Lucia
+Rosalia
+Shakira
+Juanes
+Juan Gabriel
+Armando Manzanero
+Jose Alfredo Jimenez
+Charly Garcia
+Fito Paez
+Gustavo Cerati
+Jorge Drexler
+Violeta Parra
+Victor Jara
+Caetano Veloso
+Gilberto Gil
+Chico Buarque
+Milton Nascimento
+Roberto Carlos
+Djavan
+Jorge Ben Jor
+Fela Kuti
+Youssou N'Dour
+Angelique Kidjo
+Salif Keita
+Cesaria Evora
+Lucky Dube
+Alpha Blondy
+Miriam Makeba
+Ryuichi Sakamoto
+Hikaru Utada
+Yoko Kanno
+Keisuke Kuwata
+Miyuki Nakajima
+Haruomi Hosono
+Masayoshi Yamazaki
+Utada Hikaru
+Jay Chou
+Lo Ta-yu
+Jonathan Lee
+Wu Bai
+Cui Jian
+A. R. Rahman
+Ilaiyaraaja
+Pritam
+Nusrat Fateh Ali Khan
+Arijit Singh
+Vishal Bhardwaj
+Sezen Aksu
+Tarkan
+Vladimir Vysotsky
+Bulat Okudzhava
+Viktor Tsoi
+Alla Pugacheva
+Max Martin
+Per Gessle
+Bjork
+Sigur Ros
+Roxette
+Robyn
+Aurora
+Sufjan Stevens
+Elliott Smith
+Fiona Apple
+Regina Spektor
+Beck
+Jack White
+Dave Grohl
+Chris Cornell
+Eddie Vedder
+Billy Corgan
+Trent Reznor
+Maynard James Keenan
+Ben Gibbard
+Conor Oberst
+Rufus Wainwright
+Antony Hegarty
+Feist
+Alanis Morissette
+Sarah McLachlan
+Jann Arden
+Leonard Cohen

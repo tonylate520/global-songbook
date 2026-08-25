@@ -207,10 +207,14 @@ for (const work of works.values()) {
   const nonCoverYears = [...performers.values()].map((performer) => performer.firstNonCoverYear).filter(Boolean);
   const firstNonCoverYear = Math.min(...nonCoverYears);
   const canIdentifyNonCoverOriginal = hasExplicitCovers && Number.isFinite(firstNonCoverYear);
+  const fallbackOriginalId = performers.values().find((performer) => performer.hasNonCover)?.artist.id
+    || performers.values().next().value?.artist.id;
   for (const performer of performers.values()) {
     const role = canIdentifyNonCoverOriginal
       ? (performer.hasNonCover && performer.firstNonCoverYear === firstNonCoverYear ? "original" : "cover")
-      : (performer.firstYear && performer.firstYear === firstYear ? "original" : "cover");
+      : (Number.isFinite(firstYear)
+        ? (performer.firstYear === firstYear ? "original" : "cover")
+        : (performer.artist.id === fallbackOriginalId ? "original" : "cover"));
     const songKey = `mb-work:${work.id}`;
     const artistKey = `mb-artist:${performer.artist.id}`;
     rows.set(`${songKey}|${artistKey}|${role}`, JSON.stringify({
