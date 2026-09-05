@@ -8,59 +8,141 @@ export function getStaticPaths() {
 
 interface Props { country: Country }
 const { country } = Astro.props;
-const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "";
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "https://kugou9.com";
 const countryUrl = `${siteUrl}/country/${country.code}/`;
+
+const pageTitle = `${country.nameEn} Songs & Artists - Originals & Global Cover Versions | Global Song Index`;
+const description = `Browse songs, original recordings, and global cover versions performed by artists from ${country.nameEn}. Discover who sang each song first and explore related international versions.`;
+const keywords = `${country.nameEn} songs, ${country.nameEn} music catalogue, artists from ${country.nameEn}, ${country.nameEn} cover versions, who sang it first`;
+
+const countrySchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `${country.nameEn} Songs & Artists`,
+    description,
+    url: countryUrl
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "Countries", item: `${siteUrl}/countries/` },
+      { "@type": "ListItem", position: 3, name: country.nameEn, item: countryUrl }
+    ]
+  }
+];
 ---
 
 <BaseLayout
-  title={`${country.nameEn} songs and artists - Global Song Index`}
-  description={`Browse original recordings and cover versions performed by artists from ${country.nameEn}.`}
-  schema={[
-    { "@type": "CollectionPage", name: `${country.nameEn} songs and artists`, url: countryUrl },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Countries", item: `${siteUrl}/countries/` },
-        { "@type": "ListItem", position: 2, name: country.nameEn, item: countryUrl }
-      ]
-    }
-  ]}
+  title={pageTitle}
+  description={description}
+  keywords={keywords}
+  schema={countrySchema}
 >
-  <div class="page-shell" id="country-page" data-country-code={country.code}>
+  <div class="page-shell" id="country-page" data-country-code={country.code} data-country-name={country.nameEn}>
     <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <i data-lucide="chevron-right"></i>
       <a href="/countries/">Countries</a>
       <i data-lucide="chevron-right"></i>
       <span>{country.nameEn}</span>
     </nav>
+
     <header class="page-header">
-      <div class="country-title">
+      <div class="country-title" style="display: flex; gap: 20px; align-items: center;">
         <span class="country-code country-code-large" aria-hidden="true">{country.code.toUpperCase()}</span>
         <div>
-          <p class="eyebrow">Country catalogue / {country.code.toUpperCase()}</p>
+          <p class="eyebrow"><i data-lucide="globe-2"></i> National Discography &bull; {country.code.toUpperCase()}</p>
           <h1>{country.nameEn} Songs & Artists</h1>
+          <p class="lead" style="margin-bottom: 0;">
+            Browse all songs, original recordings, and international cover versions performed by artists from {country.nameEn}.
+          </p>
         </div>
       </div>
       <div class="meta-line">
-        <span class="meta-item"><i data-lucide="map-pin"></i>{country.code.toUpperCase()}</span>
-        <span class="meta-item"><i data-lucide="list-music"></i><span id="song-count">Counting entries</span></span>
+        <span class="meta-item"><i data-lucide="map-pin"></i> Region: {country.nameEn} ({country.code.toUpperCase()})</span>
+        <span class="meta-item"><i data-lucide="list-music"></i> <span id="song-count">Loading performance count...</span></span>
       </div>
     </header>
 
     <section class="section">
       <div class="section-heading">
-        <h2>Song catalogue</h2>
+        <div>
+          <h2>Songs Catalogued in {country.nameEn}</h2>
+          <p class="section-subtext">Filter between original recordings and cover versions performed by local artists.</p>
+        </div>
         <span class="result-count">50 per page</span>
       </div>
-      <div id="country-loading" class="loading-state"><div><i data-lucide="music-2"></i><p>Loading songs</p></div></div>
-      <div id="country-error" class="empty-state hidden"><div><i data-lucide="music-2"></i><p>Songs are temporarily unavailable</p><button id="retry-button" class="button">Try again</button></div></div>
-      <div id="country-empty" class="empty-state hidden"><div><i data-lucide="list-music"></i><p>No songs have been added for this country</p></div></div>
+
+      <div class="toolbar">
+        <div class="tab-group" id="role-tabs" role="tablist" aria-label="Filter recording role">
+          <button type="button" class="tab-btn active" data-role="">All Credits</button>
+          <button type="button" class="tab-btn" data-role="original">Originals</button>
+          <button type="button" class="tab-btn" data-role="cover">Covers</button>
+        </div>
+
+        <input
+          id="country-song-filter"
+          class="filter-input"
+          type="search"
+          placeholder="Filter songs or artists on this page..."
+          aria-label="Filter page songs"
+        />
+      </div>
+
+      <div id="country-loading" class="loading-state">
+        <div>
+          <i data-lucide="music-2"></i>
+          <p>Loading songs from {country.nameEn}...</p>
+        </div>
+      </div>
+
+      <div id="country-error" class="empty-state hidden">
+        <div>
+          <i data-lucide="music-2"></i>
+          <p>Songs are temporarily unavailable</p>
+          <button id="retry-button" class="button primary">Try again</button>
+        </div>
+      </div>
+
+      <div id="country-empty" class="empty-state hidden">
+        <div>
+          <i data-lucide="list-music"></i>
+          <p>No songs found for this selection in {country.nameEn}</p>
+        </div>
+      </div>
+
       <div id="song-table" class="data-table hidden">
-        <div class="table-head"><span>Song</span><span>Artist</span><span>Credit</span><span></span></div>
+        <div class="table-head">
+          <span>Song Title</span>
+          <span>Performing Artist</span>
+          <span>Credit Role</span>
+          <span>Explore</span>
+        </div>
         <div id="song-rows"></div>
       </div>
+
       <div id="pagination" class="pagination hidden">
-        <button id="previous-page" class="button" disabled><i data-lucide="arrow-left"></i>Previous</button>
-        <button id="next-page" class="button">Next<i data-lucide="arrow-right"></i></button>
+        <button id="previous-page" class="button" disabled>
+          <i data-lucide="arrow-left"></i> Previous Page
+        </button>
+        <button id="next-page" class="button">
+          Next Page <i data-lucide="arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Country Music Intelligence Note -->
+    <section class="faq-section" style="padding: 36px 0 60px;">
+      <div class="faq-card">
+        <h3 class="faq-question">
+          <i data-lucide="info"></i> About Music from {country.nameEn}
+        </h3>
+        <p class="faq-answer">
+          Performers from <strong>{country.nameEn}</strong> have contributed both pioneering original recordings and global cover versions to the international music catalog. Each song entry links directly to its full history, showing release years, original vocalists, and other international adaptations.
+        </p>
       </div>
     </section>
   </div>

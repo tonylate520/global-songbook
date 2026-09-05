@@ -4,7 +4,7 @@ export interface Env {
 }
 
 export const publicCacheHeaders = {
-  "Cache-Control": "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400"
+  "Cache-Control": "public, max-age=1800, s-maxage=86400, stale-while-revalidate=604800"
 };
 
 export function json(data: unknown, init: ResponseInit = {}) {

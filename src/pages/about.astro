@@ -1,24 +1,112 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "https://kugou9.com";
 ---
 
-<BaseLayout title="About - Global Song Index">
-  <div class="page-shell narrow-page">
-    <header class="page-header"><p class="eyebrow">Catalogue / About</p><h1>About Global Song Index</h1></header>
-    <section class="prose">
-      <h2>Catalogue scope</h2>
-      <p>Songs are organised by the artist's country and labelled as original recordings, cover versions, or unconfirmed credits.</p>
-      <h2>Country classification</h2>
-      <p>A song appears under the country of each performing artist. Versions by artists from different countries may therefore appear in several country catalogues.</p>
-      <h2>Corrections</h2>
-      <p>Song versions and artist classifications are reviewed and updated as the catalogue grows.</p>
-    </section>
+<BaseLayout
+  title="About the Index - Who Sang It First? | Global Song Index"
+  description="Learn about the Global Song Index methodology, how original performers are identified, how international covers are catalogued, and our open music data sources."
+  keywords="about global song index, music catalogue methodology, who sang it first guide, cover song research, musicbrainz attributions"
+  schema={{
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "About Global Song Index",
+    url: `${siteUrl}/about/`,
+    description: "Methodology and mission of the Global Song Index international music catalog."
+  }}
+>
+  <div class="page-shell narrow-page" style="max-width: 820px;">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <i data-lucide="chevron-right"></i>
+      <span>About</span>
+    </nav>
+
+    <header class="page-header">
+      <p class="eyebrow"><i data-lucide="info"></i> About The Project</p>
+      <h1>About Global Song Index</h1>
+      <p class="lead">
+        An open music encyclopedia dedicated to tracking who sang it first, preserving original recording credits, and mapping the cross-border journey of cover versions across 130+ nations.
+      </p>
+    </header>
+
+    <article class="prose" style="padding: 44px 0 80px;">
+      <h2>Our Mission: Who Sang It First?</h2>
+      <p>
+        Every great song has an origin story. While many timeless tracks are popularized by famous cover artists decades later—such as Whitney Houston's soaring performance of Dolly Parton's <em>"I Will Always Love You"</em> or Jeff Buckley's emotional interpretation of Leonard Cohen's <em>"Hallelujah"</em>—audiences and music researchers frequently seek to understand the original vocalist and the historical context of the first recording.
+      </p>
+      <p>
+        <strong>Global Song Index</strong> solves this question by documenting the chronological release records of songs and establishing verified attributions for original performers alongside global adaptations.
+      </p>
+
+      <h2>Catalogue Classification Methodology</h2>
+      <p>
+        Songs and artist performances in our database are categorized into three verified roles:
+      </p>
+      <div class="faq-grid" style="grid-template-columns: 1fr; margin: 20px 0 32px;">
+        <div class="faq-card">
+          <h3 class="faq-question">
+            <span class="role-badge original" style="margin-right: 6px;"><i data-lucide="check-circle-2"></i> Original</span> First Commercial Recording
+          </h3>
+          <p class="faq-answer">
+            The earliest documented studio or commercial live audio recording released by the performing artist or group that introduced the musical composition to the public.
+          </p>
+        </div>
+        <div class="faq-card">
+          <h3 class="faq-question">
+            <span class="role-badge cover" style="margin-right: 6px;">Cover</span> Cover Version & Adaptation
+          </h3>
+          <p class="faq-answer">
+            Any subsequent performance or recording of the song by another artist or ensemble. This includes acoustic covers, genre transformations (e.g. folk to rock), and international language adaptations.
+          </p>
+        </div>
+        <div class="faq-card">
+          <h3 class="faq-question">
+            <span class="role-badge unknown" style="margin-right: 6px;">Unconfirmed</span> Research in Progress
+          </h3>
+          <p class="faq-answer">
+            Recordings currently undergoing historical verification where chronological priority or performance lineage is being cross-referenced against historical archives.
+          </p>
+        </div>
+      </div>
+
+      <h2>Geographical & Country Attribution</h2>
+      <p>
+        Unlike regional streaming platforms that index songs by publisher territory, Global Song Index indexes recordings by the <strong>origin nation or territory of the performing artist</strong>. A song recorded in 1965 by a British band and later covered by artists in France, Japan, and Brazil appears cross-indexed in each corresponding country catalogue.
+      </p>
+
+      <h2>Data Sources & Verification</h2>
+      <p>
+        Our catalogue synthesizes data from the community-driven <a href="https://musicbrainz.org" target="_blank" rel="noopener noreferrer" style="color: var(--navy); font-weight: 700; text-decoration: underline;">MusicBrainz</a> open knowledge base, national discographical libraries, and verified public historical records. Data is continuously updated, normalized, and deployed globally via Cloudflare D1 distributed edge storage.
+      </p>
+
+      <h2>Explore the Catalogue</h2>
+      <p>
+        Ready to discover music history?
+      </p>
+      <div style="display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;">
+        <a href="/countries/" class="button primary">
+          <i data-lucide="globe-2"></i> Browse Countries
+        </a>
+        <a href="/search/" class="button">
+          <i data-lucide="search"></i> Search Songs & Artists
+        </a>
+      </div>
+    </article>
   </div>
 </BaseLayout>
 
 <style>
-  .narrow-page { max-width: 780px; }
-  .prose { padding: 36px 0 70px; }
-  .prose h2 { margin-top: 32px; }
-  .prose p { color: var(--muted); line-height: 1.8; }
+  .prose h2 {
+    font-size: 24px;
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+  .prose p {
+    color: var(--ink-secondary);
+    line-height: 1.75;
+    font-size: 15.5px;
+    margin-bottom: 18px;
+  }
 </style>

@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = ({ site }) => {
-  const origin = site?.toString().replace(/\/$/, "") || "https://global-song-index.pages.dev";
+  const origin = site?.toString().replace(/\/$/, "") || "https://kugou9.com";
   const body = [
     "User-agent: *",
     "Allow: /",

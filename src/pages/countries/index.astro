@@ -2,63 +2,172 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { countryList } from "../../data/countries";
 
-const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "";
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "https://kugou9.com";
 const countryItems = countryList.map((country, index) => ({
   "@type": "ListItem",
   position: index + 1,
   name: country.nameEn,
   url: `${siteUrl}/country/${country.code}/`
 }));
+
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+const topCodes = ["us", "gb", "fr", "de", "jp", "kr", "cn", "br", "ca", "au", "es", "it"];
+const topCountries = topCodes
+  .map((code) => countryList.find((c) => c.code === code))
+  .filter(Boolean);
 ---
 
 <BaseLayout
-  title="Countries and regions - Global Song Index"
-  description="Browse songs, original performers, and cover artists by country and region."
-  schema={{ "@type": "ItemList", name: "Countries and regions", itemListElement: countryItems }}
+  title="Browse Songs & Artists by Country | Global Song Index"
+  description="Explore music and song recordings from 133 countries and regions. Discover original tracks and international cover versions by country."
+  keywords="songs by country, international music catalogue, global cover songs, browse music by region, country song database"
+  schema={[
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "Countries and regions in Global Song Index",
+      itemListElement: countryItems
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+        { "@type": "ListItem", position: 2, name: "Countries", item: `${siteUrl}/countries/` }
+      ]
+    }
+  ]}
 >
   <div class="page-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <i data-lucide="chevron-right"></i>
+      <span>Countries</span>
+    </nav>
+
     <header class="page-header">
-      <p class="eyebrow">Catalogue / Countries</p>
+      <p class="eyebrow"><i data-lucide="globe-2"></i> Global Discography Index</p>
       <h1>Countries & Regions</h1>
-      <p class="lead">Choose a country to browse songs performed by its artists.</p>
+      <p class="lead">
+        Select a country or territory to browse its artists, original recordings, and global cover versions.
+      </p>
     </header>
-    <div class="toolbar">
-      <input id="country-filter" class="filter-input" type="search" placeholder="Filter countries and regions" aria-label="Filter countries and regions" />
-      <span class="result-count"><strong id="country-count">{countryList.length}</strong> countries and regions</span>
-    </div>
-    <div id="country-grid" class="country-grid" data-total={countryList.length}>
-      {countryList.map((country) => (
-        <a class="country-link" href={`/country/${country.code}/`} data-search={`${country.nameEn} ${country.code}`}>
-          <span class="country-code" aria-hidden="true">{country.code.toUpperCase()}</span>
-          <span class="country-name">
-            <strong>{country.nameEn}</strong>
-            <small>{country.code.toUpperCase()}</small>
-          </span>
-          <i data-lucide="chevron-right"></i>
-        </a>
-      ))}
-    </div>
-    <div id="country-empty" class="empty-state hidden">
-      <div><i data-lucide="globe-2"></i><p>No matching countries or regions</p></div>
-    </div>
+
+    <!-- Top Music Markets Showcase -->
+    <section class="section" style="padding-bottom: 24px;">
+      <div class="section-heading">
+        <div>
+          <h2>Major Music Markets</h2>
+          <p class="section-subtext">Quick shortcuts to the most active national catalogues.</p>
+        </div>
+      </div>
+      <div class="country-grid">
+        {topCountries.map((country) => country && (
+          <a class="country-link" href={`/country/${country.code}/`}>
+            <span class="country-code" aria-hidden="true">{country.code.toUpperCase()}</span>
+            <span class="country-name">
+              <strong>{country.nameEn}</strong>
+              <small>{country.code.toUpperCase()}</small>
+            </span>
+            <i data-lucide="chevron-right"></i>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- All Countries Directory with A-Z Filter -->
+    <section class="section" style="padding-top: 24px;">
+      <div class="section-heading">
+        <div>
+          <h2>All Countries & Territories</h2>
+          <p class="section-subtext">Alphabetical listing of all 133 indexed countries and territories.</p>
+        </div>
+        <span class="result-count"><strong id="country-count">{countryList.length}</strong> countries</span>
+      </div>
+
+      <!-- A-Z Alphabet Filter Navigation -->
+      <div class="alphabet-nav" id="alphabet-nav" aria-label="Filter by letter">
+        <button type="button" class="alphabet-btn active" data-letter="all">All</button>
+        {alphabet.map((letter) => (
+          <button type="button" class="alphabet-btn" data-letter={letter}>{letter}</button>
+        ))}
+      </div>
+
+      <div class="toolbar">
+        <input
+          id="country-filter"
+          class="filter-input"
+          type="search"
+          placeholder="Filter countries by name or ISO code (e.g. France, JP)..."
+          aria-label="Filter countries and regions"
+        />
+      </div>
+
+      <div id="country-grid" class="country-grid" data-total={countryList.length}>
+        {countryList.map((country) => (
+          <a
+            class="country-link"
+            href={`/country/${country.code}/`}
+            data-search={`${country.nameEn} ${country.code}`}
+            data-letter={country.nameEn.charAt(0).toUpperCase()}
+          >
+            <span class="country-code" aria-hidden="true">{country.code.toUpperCase()}</span>
+            <span class="country-name">
+              <strong>{country.nameEn}</strong>
+              <small>{country.code.toUpperCase()}</small>
+            </span>
+            <i data-lucide="chevron-right"></i>
+          </a>
+        ))}
+      </div>
+
+      <div id="country-empty" class="empty-state hidden">
+        <div>
+          <i data-lucide="globe-2"></i>
+          <p>No matching countries or regions found</p>
+        </div>
+      </div>
+    </section>
   </div>
+
   <script>
     const input = document.querySelector<HTMLInputElement>("#country-filter");
     const links = [...document.querySelectorAll<HTMLElement>("#country-grid .country-link")];
     const count = document.querySelector<HTMLElement>("#country-count");
     const empty = document.querySelector<HTMLElement>("#country-empty");
     const grid = document.querySelector<HTMLElement>("#country-grid");
-    input?.addEventListener("input", () => {
-      const query = input.value.trim().toLocaleLowerCase();
+    const alphaButtons = [...document.querySelectorAll<HTMLButtonElement>("#alphabet-nav .alphabet-btn")];
+
+    let selectedLetter = "all";
+
+    function updateFilter() {
+      const query = input?.value.trim().toLowerCase() || "";
       let visible = 0;
+
       links.forEach((link) => {
-        const matches = !query || link.dataset.search?.toLocaleLowerCase().includes(query);
-        link.classList.toggle("hidden", !matches);
-        if (matches) visible += 1;
+        const matchesSearch = !query || link.dataset.search?.toLowerCase().includes(query);
+        const matchesLetter = selectedLetter === "all" || link.dataset.letter === selectedLetter;
+        const show = matchesSearch && matchesLetter;
+
+        link.classList.toggle("hidden", !show);
+        if (show) visible += 1;
       });
+
       if (count) count.textContent = String(visible);
       empty?.classList.toggle("hidden", visible !== 0);
       grid?.classList.toggle("hidden", visible === 0);
+    }
+
+    input?.addEventListener("input", updateFilter);
+
+    alphaButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        alphaButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        selectedLetter = btn.dataset.letter || "all";
+        updateFilter();
+      });
     });
   </script>
 </BaseLayout>

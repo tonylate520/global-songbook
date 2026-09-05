@@ -2,26 +2,106 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Song details - Global Song Index" noindex>
+<BaseLayout
+  title="Song Details & Cover Versions - Global Song Index"
+  description="Who sang it first? Browse original performers, release years, and international cover versions."
+  noindex
+>
   <div class="page-shell" id="song-page">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a><i data-lucide="chevron-right"></i><span>Song details</span>
+      <a href="/">Home</a>
+      <i data-lucide="chevron-right"></i>
+      <a href="/countries/">Countries</a>
+      <i data-lucide="chevron-right"></i>
+      <span id="breadcrumb-song-title">Song Details</span>
     </nav>
-    <div id="song-loading" class="loading-state song-loading"><div><i data-lucide="music-2"></i><p>Loading song</p></div></div>
-    <div id="song-error" class="empty-state song-loading hidden"><div><i data-lucide="music-2"></i><p>Song not found</p><a class="button" href="/search/">Back to search</a></div></div>
+
+    <div id="song-loading" class="loading-state song-loading">
+      <div>
+        <i data-lucide="music-2"></i>
+        <p>Loading song details & performers...</p>
+      </div>
+    </div>
+
+    <div id="song-error" class="empty-state song-loading hidden">
+      <div>
+        <i data-lucide="music-2"></i>
+        <p>Song not found in catalogue</p>
+        <a class="button primary" href="/search/">Search Catalogue</a>
+      </div>
+    </div>
+
     <article id="song-content" class="hidden">
-      <header class="song-hero">
-        <p class="eyebrow">Song entry</p>
+      <header class="page-header">
+        <p class="eyebrow">
+          <i data-lucide="disc-3"></i> Song Catalogue Entry
+        </p>
         <h1 id="song-title"></h1>
         <div class="meta-line" id="song-meta"></div>
       </header>
-      <section class="section">
-        <div class="section-heading"><h2>Performers</h2><span id="performer-count" class="result-count"></span></div>
+
+      <!-- The "Who Sang It First?" Highlight Hero Card -->
+      <div id="song-highlight" class="song-highlight-card"></div>
+
+      <!-- Performers & Covers Section -->
+      <section class="section" id="performers-section">
+        <div class="section-heading">
+          <div>
+            <h2>Recorded Performers & Covers</h2>
+            <p class="section-subtext">Original artist and international cover recordings documented in the catalogue.</p>
+          </div>
+          <span id="performer-count" class="result-count"></span>
+        </div>
+
+        <div class="toolbar">
+          <div class="tab-group" id="performer-tabs" role="tablist" aria-label="Filter versions">
+            <button type="button" class="tab-btn active" data-filter="all">
+              All Recordings <span class="tab-badge" id="tab-badge-all">0</span>
+            </button>
+            <button type="button" class="tab-btn" data-filter="original">
+              Original <span class="tab-badge" id="tab-badge-original">0</span>
+            </button>
+            <button type="button" class="tab-btn" data-filter="cover">
+              Covers <span class="tab-badge" id="tab-badge-cover">0</span>
+            </button>
+          </div>
+
+          <input
+            id="performer-filter"
+            class="filter-input"
+            type="search"
+            placeholder="Filter by artist name or country..."
+            aria-label="Filter performers or countries"
+          />
+        </div>
+
         <div id="performer-list" class="performer-list"></div>
+
+        <div id="performer-empty" class="empty-state hidden">
+          <div>
+            <i data-lucide="user-round"></i>
+            <p>No performers match your search or filter</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Long-tail FAQ / Intelligence Guide -->
+      <section class="faq-section" id="song-faq">
+        <div class="section-heading">
+          <div>
+            <h2>Song Intelligence & FAQs</h2>
+            <p class="section-subtext">Key facts, attributions, and history for this song.</p>
+          </div>
+        </div>
+        <div id="song-faq-content"></div>
       </section>
     </article>
   </div>
   <script>import "../../scripts/song-page";</script>
 </BaseLayout>
 
-<style>.song-loading { margin: 44px 0 80px; }</style>
+<style>
+  .song-loading {
+    margin: 48px 0 80px;
+  }
+</style>
